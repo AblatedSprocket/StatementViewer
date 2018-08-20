@@ -1,0 +1,84 @@
+﻿<UserControl x:Class="StatementViewer.Costs.CostsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:StatementViewer.Costs"
+             xmlns:util="clr-namespace:CustomPresentationControls.Utilities;assembly=CustomPresentationControls"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <util:NegatableBooleanToVisibilityConverter x:Key="VisConverter"/>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="3*"/>
+        </Grid.ColumnDefinitions>
+        <Grid Grid.Column="0"
+              Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Text="{Binding StartDate, StringFormat={}{0:MMMM yyyy}}"
+                       Visibility="{Binding MonthlyFlag, Converter={StaticResource VisConverter}}"
+                       Grid.Column="0"/>
+            <TextBlock Text="{Binding StartDate, StringFormat=yyyy}"
+                       Visibility="{Binding YearlyFlag, Converter={StaticResource VisConverter}}"
+                       Grid.Column="0"/>
+            <TextBlock Text="All"
+                       Visibility="{Binding AllFlag, Converter={StaticResource VisConverter}}"
+                       Grid.Column="0"/>
+            <TextBlock Text=" Costs"
+                       Grid.Column="1"/>
+        </Grid>
+        <ListView ItemsSource="{Binding CostBreakdown}"
+                  Grid.Column="0"
+                  Grid.Row="1">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Category" DisplayMemberBinding="{Binding Key}"/>
+                    <GridViewColumn Header="Amount" DisplayMemberBinding="{Binding Value}"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <DataGrid ItemsSource="{Binding Transactions}"
+                  AutoGenerateColumns="False"
+                  CanUserAddRows="False"
+                  Grid.Column="1"
+                  Grid.Row="1">
+            <DataGrid.Columns>
+                <DataGridTextColumn Binding="{Binding Vendor}"
+                                Header="Vendor"
+                                Width="SizeToCells" />
+                <DataGridTextColumn Binding="{Binding Amount}"
+                                Header="Amount"
+                                Width="SizeToCells" />
+                <DataGridTextColumn Binding="{Binding Type}"
+                                Header="Type"
+                                Width="SizeToCells" />
+                <DataGridTextColumn Binding="{Binding Category}"
+                                Header="Category"
+                                Width="SizeToCells" />
+                <DataGridTextColumn Binding="{Binding PostDate, StringFormat=MM/dd/yyyy}"
+                                Header="Date"
+                                Width="SizeToCells" />
+                <DataGridTextColumn Binding="{Binding Description}"
+                                Header="Description"
+                                Width="*" />
+            </DataGrid.Columns>
+        </DataGrid>
+        <StackPanel Orientation="Horizontal"
+                    Grid.Column="1"
+                    Grid.Row="2">
+            <Button Content="Add Vendor"
+                    Command="{Binding AddVendorCommand}"/>
+        </StackPanel>
+    </Grid>
+</UserControl>
