@@ -14,7 +14,8 @@ namespace StatementViewer.Costs
         private bool _yearlyFlag = false;
         private bool _allFlag = false;
         private DateTime _startDate;
-        private Dictionary<string, decimal> _costBreakdown;
+        //private Dictionary<string, decimal> _costBreakdown;
+        private CostBreakdown _costBreakdown;
         private ObservableCollection<Transaction> _transactions;
         #endregion
         #region Properties
@@ -38,7 +39,12 @@ namespace StatementViewer.Costs
             get { return _startDate; }
             set { OnPropertyChanged(ref _startDate, value); }
         }
-        public Dictionary<string, decimal> CostBreakdown
+        //public Dictionary<string, decimal> CostBreakdown
+        //{
+        //    get { return _costBreakdown; }
+        //    set { OnPropertyChanged(ref _costBreakdown, value); }
+        //}
+        public CostBreakdown CostBreakdown
         {
             get { return _costBreakdown; }
             set { OnPropertyChanged(ref _costBreakdown, value); }
@@ -73,6 +79,10 @@ namespace StatementViewer.Costs
             AddVendorCommand = new RelayCommand(OnAddVendor);
         }
         #region Public Methods
+        public void SetBreakdown(CostBreakdown breakdown)
+        {
+            CostBreakdown = breakdown;
+        }
         public void SetTransactions(IEnumerable<Transaction> transactions)
         {
             Transactions = new ObservableCollection<Transaction>(transactions);
@@ -97,20 +107,20 @@ namespace StatementViewer.Costs
         #region Private Methods
         private void BuildCostBreakdown()
         {
-            Dictionary<string, decimal> costs = new Dictionary<string, decimal>();
-            foreach (Transaction transaction in Transactions)
-            {
-                string category = transaction.Category.ToString();
-                if (costs.TryGetValue(category, out decimal val))
-                {
-                    costs[category] += transaction.Amount;
-                }
-                else
-                {
-                    costs.Add(category, transaction.Amount);
-                }
-            }
-            CostBreakdown = costs;
+            //Dictionary<string, decimal> costs = new Dictionary<string, decimal>();
+            //foreach (Transaction transaction in Transactions)
+            //{
+            //    string category = transaction.Category.ToString();
+            //    if (costs.TryGetValue(category, out decimal val))
+            //    {
+            //        costs[category] += transaction.Amount;
+            //    }
+            //    else
+            //    {
+            //        costs.Add(category, transaction.Amount);
+            //    }
+            //}
+            //CostBreakdown = costs;
         }
         #endregion
     }

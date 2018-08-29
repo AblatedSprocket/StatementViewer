@@ -52,7 +52,7 @@ namespace StatementViewer.Vendors
             }
             catch (Exception ex)
             {
-                WpfMessageBox.ShowDialog("Data Error", ex.Message, MessageIcon.Error, MessageBoxButton.OK);
+                WpfMessageBox.ShowDialog("Data Error", ex.Message, MessageBoxButton.OK, MessageIcon.Error);
             }
         }
         private void OnEditVendor(Vendor vendor)
@@ -63,7 +63,7 @@ namespace StatementViewer.Vendors
             }
             catch (Exception ex)
             {
-                WpfMessageBox.ShowDialog("Data Error", ex.Message, MessageIcon.Error, MessageBoxButton.OK);
+                WpfMessageBox.ShowDialog("Data Error", ex.Message, MessageBoxButton.OK, MessageIcon.Error);
             }
         }
         private void OnRemoveVendor(Vendor vendor)
@@ -75,7 +75,7 @@ namespace StatementViewer.Vendors
             }
             catch (Exception ex)
             {
-                WpfMessageBox.ShowDialog("Data Error", ex.Message, MessageIcon.Error, MessageBoxButton.OK);
+                WpfMessageBox.ShowDialog("Data Error", ex.Message, MessageBoxButton.OK, MessageIcon.Error);
             }
         }
         #endregion

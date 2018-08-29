@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
+using System.Linq;
 using System.Windows;
 
 namespace StatementViewer
@@ -60,7 +61,7 @@ namespace StatementViewer
         #endregion
         public MainWindowModel()
         {
-            Config.DatabasePath = Path.Combine("D:\\", "Homebrew", "Database", "home.db");
+            Config.DatabasePath = Path.Combine("C:\\", "Data", "Database", "home.db");
 
             UpdateViewModels();
             SearchDirectory = Config.SearchDirectory;
@@ -92,7 +93,7 @@ namespace StatementViewer
             switch (destination)
             {
                 case "Monthly":
-                    CurrentViewModel = _monthlyCostsViewModel;
+                    OnNavToMonthView(CostData.Where(c => c.TimePeriod.Year == DateTime.Today.Year && c.TimePeriod.Month == DateTime.Today.Month).FirstOrDefault());
                     break;
                 case "Yearly":
                     CurrentViewModel = _yearlyCostsViewModel;
@@ -112,13 +113,21 @@ namespace StatementViewer
         {
             try
             {
-                IEnumerable<Transaction> viewTransactions =_transactionRepository.GetTransactionsByMonth(breakdown.TimePeriod);
-                _monthlyCostsViewModel.SetTransactions(viewTransactions);
-                CurrentViewModel = _monthlyCostsViewModel;
+                if (breakdown != null)
+                {
+                    IEnumerable<Transaction> viewTransactions = _transactionRepository.GetTransactionsByMonth(breakdown.TimePeriod);
+                    _monthlyCostsViewModel.SetTransactions(viewTransactions);
+                    _monthlyCostsViewModel.SetBreakdown(breakdown);
+                    CurrentViewModel = _monthlyCostsViewModel;
+                }
+                else
+                {
+                    WpfMessageBox.ShowDialog("Warning", "No transaction data available for the current month.", MessageBoxButton.OK, MessageIcon.Information);
+                }
             }
             catch (Exception ex)
             {
-                WpfMessageBox.ShowDialog("Error", ex.Message, MessageIcon.Error, MessageBoxButton.OK);
+                WpfMessageBox.ShowDialog("Error", ex.Message, MessageBoxButton.OK, MessageIcon.Error);
             }
         }
         #endregion
@@ -210,7 +219,7 @@ namespace StatementViewer
             catch (Exception ex)
             {
                 Logger.LogException(ex);
-                WpfMessageBox.ShowDialog("Data Error", ex.Message, MessageIcon.Error, MessageBoxButton.OK);
+                WpfMessageBox.ShowDialog("Data Error", ex.Message, MessageBoxButton.OK, MessageIcon.Error);
             }
         }
         #endregion

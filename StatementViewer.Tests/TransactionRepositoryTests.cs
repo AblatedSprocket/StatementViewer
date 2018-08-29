@@ -11,7 +11,7 @@ namespace StatementViewer.Tests
     [TestClass]
     public class TransactionRepositoryTests
     {
-        TransactionRepository repo = new TransactionRepository(@"D:\Dev\Database\home.db");
+        TransactionRepository repo = new TransactionRepository(@"C:\Data\Database\home.db");
         [TestMethod]
         public void AddTransaction_Errors()
         {
