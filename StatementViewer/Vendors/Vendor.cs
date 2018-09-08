@@ -1,11 +1,12 @@
 ﻿using CustomPresentationControls.Utilities;
+using StatementViewer.Transactions;
 
 namespace StatementViewer.Vendors
 {
     public class Vendor : ObservableObject
     {
         private string _name;
-        private string _category;
+        private TransactionCategory _category;
         private string _associatedText;
         private int _transactionCount;
         public int Id { get; set; }
@@ -14,7 +15,7 @@ namespace StatementViewer.Vendors
             get { return _name; }
             set { OnPropertyChanged(ref _name, value); }
         }
-        public string Category
+        public TransactionCategory Category
         {
             get { return _category; }
             set { OnPropertyChanged(ref _category, value); }

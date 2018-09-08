@@ -1,4 +1,5 @@
-﻿using System.Windows.Controls;
+﻿using StatementViewer.Transactions;
+using System.Windows.Controls;
 
 namespace StatementViewer.Costs
 {

@@ -6,9 +6,11 @@
              xmlns:chart="clr-namespace:CustomPresentationControls.Charts;assembly=CustomPresentationControls"
              xmlns:local="clr-namespace:StatementViewer.Costs"
              xmlns:util="clr-namespace:CustomPresentationControls.Utilities;assembly=CustomPresentationControls"
+             xmlns:control="clr-namespace:CustomPresentationControls;assembly=CustomPresentationControls"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
+        <control:BindingProxy x:Key="Proxy" Data="{Binding}"/>
         <local:CostBreakdownToPieSegmentConverter x:Key="CostBreakdownToPieConverter"/>
         <util:NegatableBooleanToVisibilityConverter x:Key="VisConverter"/>
     </UserControl.Resources>
@@ -41,12 +43,26 @@
                        Grid.Column="1"/>
         </Grid>
         <chart:PieChartControl ItemsSource="{Binding CostBreakdown, Converter={StaticResource CostBreakdownToPieConverter}}"
+                               FigureSize="200"
                                Grid.Row="1"/>
         <DataGrid ItemsSource="{Binding Transactions}"
                   AutoGenerateColumns="False"
                   CanUserAddRows="False"
                   Grid.Column="1"
                   Grid.Row="1">
+            <DataGrid.RowStyle>
+                <Style TargetType="{x:Type DataGridRow}">
+                    <Setter Property="ContextMenu">
+                        <Setter.Value>
+                            <ContextMenu>
+                                <MenuItem Header="Edit"
+                                          Command="{Binding Data.ModifyTransactionCommand, Source={StaticResource Proxy}}"
+                                          CommandParameter="{Binding}"/>
+                            </ContextMenu>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </DataGrid.RowStyle>
             <DataGrid.Columns>
                 <DataGridTextColumn Binding="{Binding Vendor}"
                                 Header="Vendor"

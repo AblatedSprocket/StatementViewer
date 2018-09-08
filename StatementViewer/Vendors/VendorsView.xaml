@@ -54,10 +54,15 @@
                 </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
-        <Button Content="Add Vendor"
+        <StackPanel Grid.Row="2"
+                    Orientation="Horizontal">
+            <Button Content="Add Vendor"
                 Command="{Binding AddVendorCommand}"
-                Grid.Row="2"
                 Width="120"
                 HorizontalAlignment="Left"/>
+            <Button Content="Update Transactions"
+                Command="{Binding UpdateTransactionVendorsCommand}"
+                Width="120"/>
+        </StackPanel>
     </Grid>
 </UserControl>

@@ -80,12 +80,12 @@
                                     Header="Month"/>
                 <DataGridTextColumn Binding="{Binding Paycheck}"
                                     Header="Paychecks"/>
+                <DataGridTextColumn Binding="{Binding Interest}"
+                                    Header="Interest"/>
                 <DataGridTextColumn Binding="{Binding Mortgage}"
                                     Header="Mortgage"/>
                 <DataGridTextColumn Binding="{Binding Loans}"
                                     Header="Loans"/>
-                <DataGridTextColumn Binding="{Binding Interest}"
-                                    Header="Interest"/>
                 <DataGridTextColumn Binding="{Binding Utilities}"
                                     Header="Utilities"/>
                 <DataGridTextColumn Binding="{Binding Grocery}"
@@ -104,6 +104,8 @@
                                     Header="Travel"/>
                 <DataGridTextColumn Binding="{Binding Misc}"
                                     Header="Misc"/>
+                <DataGridTextColumn Binding="{Binding Payments}"
+                                    Header="Payments"/>
                 <DataGridTemplateColumn MaxWidth="50"
                                         MinWidth="50">
                     <DataGridTemplateColumn.CellTemplate>

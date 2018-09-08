@@ -12,12 +12,15 @@ namespace StatementViewer.Services
         bool AddTransaction(Transaction transaction);
         bool DeleteTransaction(int transactionId);
         Transaction GetTransaction(int transactionId);
-        IEnumerable<CostBreakdown> GetCostBreakdowns();
+        IEnumerable<CostBreakdown> GetMonthCostBreakdowns();
+        IEnumerable<CostBreakdown> GetYearCostBreakdowns();
+        CostBreakdown GetLifetimeCostBreakdown();
         IEnumerable<Transaction> GetTransactions();
         IEnumerable<Transaction> GetTransactionsByMonth(DateTime month);
         IEnumerable<Transaction> GetTransactionsByYear(int year);
         bool SetDatabaseConnectionString(string path);
         void UpdateTransaction(Transaction transaction);
         void UpdateTransactionVendors(Vendor vendor);
+        void UpdateTransactionVendors(IEnumerable<Vendor> vendors);
     }
 }

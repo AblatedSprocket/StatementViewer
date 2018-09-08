@@ -31,15 +31,15 @@ namespace StatementViewer.Costs
                         Color = ChartColors.Orange
                     });
                 }
-                if (costBreakdown.Payments > 0)
-                {
-                    data.Add(new PieSegment
-                    {
-                        Name = "Payments",
-                        Value = (double)costBreakdown.Payments,
-                        Color = ChartColors.Periwinkle
-                    });
-                }
+                //if (costBreakdown.Payments > 0)
+                //{
+                //    data.Add(new PieSegment
+                //    {
+                //        Name = "Payments",
+                //        Value = (double)costBreakdown.Payments,
+                //        Color = ChartColors.Periwinkle
+                //    });
+                //}
 
                 if (costBreakdown.Utilities > 0)
                 {

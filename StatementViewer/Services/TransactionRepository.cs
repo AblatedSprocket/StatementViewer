@@ -82,8 +82,51 @@ namespace StatementViewer.Services
             }
             return true;
         }
-
-        public IEnumerable<CostBreakdown> GetCostBreakdowns()
+        public CostBreakdown GetLifetimeCostBreakdown()
+        {
+            Logger.Log("Retrieving lifetime cost breakdown");
+            using (SQLiteConnection conn = new SQLiteConnection(_databaseConn))
+            {
+                conn.Open();
+                SQLiteCommand cmd = new SQLiteCommand(conn);
+                StringBuilder sql = new StringBuilder("SELECT ");
+                int index = 0;
+                foreach (TransactionCategory category in Enum.GetValues(typeof(TransactionCategory)))
+                {
+                    if (index != 0)
+                    {
+                        sql.Append(", ");
+                    }
+                    sql.Append($"SUM(CASE WHEN Category = @category{index} AND Type = 'Credit' THEN -Amount WHEN Category = @category{index} AND Type = 'Debit' THEN Amount ELSE 0 END) AS {category.ToString()}");
+                    cmd.Parameters.Add($"category{index}", DbType.String).Value = category.ToString();
+                    index++;
+                }
+                sql.Append(" FROM Transactions");
+                cmd.CommandText = sql.ToString();
+                SQLiteDataReader reader = cmd.ExecuteReader();
+                if (reader.Read())
+                {
+                    CostBreakdown costBreakdown = new CostBreakdown();
+                    costBreakdown.Auto = Convert.ToDecimal(reader["Auto"]);
+                    costBreakdown.Dining = Convert.ToDecimal(reader["Dining"]);
+                    costBreakdown.Grocery = Convert.ToDecimal(reader["Grocery"]);
+                    costBreakdown.Home = Convert.ToDecimal(reader["Home"]);
+                    costBreakdown.Interest = -Convert.ToDecimal(reader["Interest"]);
+                    costBreakdown.Loans = Convert.ToDecimal(reader["Loans"]);
+                    costBreakdown.Luxury = Convert.ToDecimal(reader["Luxury"]);
+                    costBreakdown.Misc = Convert.ToDecimal(reader["Misc"]);
+                    costBreakdown.Mortgage = Convert.ToDecimal(reader["Mortgage"]);
+                    costBreakdown.Paycheck = -Convert.ToDecimal(reader["Paycheck"]);
+                    costBreakdown.Travel = Convert.ToDecimal(reader["Travel"]);
+                    costBreakdown.Utilities = Convert.ToDecimal(reader["Utilities"]);
+                    costBreakdown.Work = Convert.ToDecimal(reader["Work"]);
+                    costBreakdown.Payments = Convert.ToDecimal(reader["Payment"]);
+                    return costBreakdown;
+                }
+            }
+            return null;
+        }
+        public IEnumerable<CostBreakdown> GetMonthCostBreakdowns()
         {
             Logger.Log("Retrieving breakdowns of costs by month");
             List<CostBreakdown> costBreakdowns = new List<CostBreakdown>();
@@ -109,24 +152,65 @@ namespace StatementViewer.Services
                     costBreakdown.Dining = Convert.ToDecimal(reader["Dining"]);
                     costBreakdown.Grocery = Convert.ToDecimal(reader["Grocery"]);
                     costBreakdown.Home = Convert.ToDecimal(reader["Home"]);
-                    costBreakdown.Interest = Convert.ToDecimal(reader["Interest"]);
+                    costBreakdown.Interest = -Convert.ToDecimal(reader["Interest"]);
                     costBreakdown.Loans = Convert.ToDecimal(reader["Loans"]);
                     costBreakdown.Luxury = Convert.ToDecimal(reader["Luxury"]);
                     costBreakdown.Misc = Convert.ToDecimal(reader["Misc"]);
                     costBreakdown.Mortgage = Convert.ToDecimal(reader["Mortgage"]);
-                    costBreakdown.Paycheck = Convert.ToDecimal(reader["Paycheck"]);
-                    costBreakdown.Payments = Convert.ToDecimal(reader["Payment"]);
-                    var value = reader["monthyear"].ToString();
+                    costBreakdown.Paycheck = -Convert.ToDecimal(reader["Paycheck"]);
                     costBreakdown.TimePeriod = Convert.ToDateTime(reader["monthyear"]);
                     costBreakdown.Travel = Convert.ToDecimal(reader["Travel"]);
                     costBreakdown.Utilities = Convert.ToDecimal(reader["Utilities"]);
                     costBreakdown.Work = Convert.ToDecimal(reader["Work"]);
+                    costBreakdown.Payments = Convert.ToDecimal(reader["Payment"]);
                     costBreakdowns.Add(costBreakdown);
                 }
                 return costBreakdowns;
             }
         }
 
+        public IEnumerable<CostBreakdown> GetYearCostBreakdowns()
+        {
+            Logger.Log("Retrieving breakdowns of costs by year");
+            List<CostBreakdown> costBreakdowns = new List<CostBreakdown>();
+            using (SQLiteConnection conn = new SQLiteConnection(_databaseConn))
+            {
+                conn.Open();
+                SQLiteCommand cmd = new SQLiteCommand(conn);
+                StringBuilder sql = new StringBuilder("SELECT ");
+                int index = 0;
+                foreach (TransactionCategory category in Enum.GetValues(typeof(TransactionCategory)))
+                {
+                    sql.Append($"SUM(CASE WHEN Category = @category{index} AND Type = 'Credit' THEN -Amount WHEN Category = @category{index} AND Type = 'Debit' THEN Amount ELSE 0 END) AS {category.ToString()}, ");
+                    cmd.Parameters.Add($"category{index}", DbType.String).Value = category.ToString();
+                    index++;
+                }
+                sql.Append("strftime('%Y', PostDate) as year FROM Transactions GROUP BY year");
+                cmd.CommandText = sql.ToString();
+                SQLiteDataReader reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    CostBreakdown costBreakdown = new CostBreakdown();
+                    costBreakdown.Auto = Convert.ToDecimal(reader["Auto"]);
+                    costBreakdown.Dining = Convert.ToDecimal(reader["Dining"]);
+                    costBreakdown.Grocery = Convert.ToDecimal(reader["Grocery"]);
+                    costBreakdown.Home = Convert.ToDecimal(reader["Home"]);
+                    costBreakdown.Interest = -Convert.ToDecimal(reader["Interest"]);
+                    costBreakdown.Loans = Convert.ToDecimal(reader["Loans"]);
+                    costBreakdown.Luxury = Convert.ToDecimal(reader["Luxury"]);
+                    costBreakdown.Misc = Convert.ToDecimal(reader["Misc"]);
+                    costBreakdown.Mortgage = Convert.ToDecimal(reader["Mortgage"]);
+                    costBreakdown.Paycheck = -Convert.ToDecimal(reader["Paycheck"]);
+                    costBreakdown.TimePeriod = new DateTime(Convert.ToInt32(reader["year"]), 1, 1);
+                    costBreakdown.Travel = Convert.ToDecimal(reader["Travel"]);
+                    costBreakdown.Utilities = Convert.ToDecimal(reader["Utilities"]);
+                    costBreakdown.Work = Convert.ToDecimal(reader["Work"]);
+                    costBreakdown.Payments = Convert.ToDecimal(reader["Payment"]);
+                    costBreakdowns.Add(costBreakdown);
+                }
+                return costBreakdowns;
+            }
+        }
         public Transaction GetTransaction(int transactionId)
         {
             if (TransactionExists(transactionId))
@@ -401,6 +485,13 @@ namespace StatementViewer.Services
             }
         }
 
+        public void UpdateTransactionVendors(IEnumerable<Vendor> vendors)
+        {
+            foreach (Vendor vendor in vendors)
+            {
+                UpdateTransactionVendors(vendor);
+            }
+        }
         private FinanceManagement.Transaction ConvertModelToData(Transaction transaction)
         {
             return new FinanceManagement.Transaction(transaction.Id)

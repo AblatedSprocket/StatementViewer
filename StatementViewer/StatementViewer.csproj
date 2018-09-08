@@ -36,11 +36,13 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="CustomPresentationControls">
-      <HintPath>..\..\CustomPresentationControls\CustomPresentationControls\bin\Release\CustomPresentationControls.dll</HintPath>
+    <Reference Include="CustomPresentationControls, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Libraries\CustomPresentationControls.dll</HintPath>
     </Reference>
-    <Reference Include="FinanceManagement">
-      <HintPath>..\..\FinanceManagement\FinanceManagement\bin\Release\FinanceManagement.dll</HintPath>
+    <Reference Include="FinanceManagement, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Libraries\FinanceManagement.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -69,6 +71,10 @@
     </ApplicationDefinition>
     <Compile Include="Costs\ChartColors.cs" />
     <Compile Include="Costs\CostBreakdownToPieSegmentConverter.cs" />
+    <Compile Include="Costs\ModifyTransactionDialog.xaml.cs">
+      <DependentUpon>ModifyTransactionDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Costs\ModifyTransactionEventArgs.cs" />
     <Compile Include="MainWindowModel.cs" />
     <Compile Include="Services\IStatementProcessingService.cs" />
     <Compile Include="Services\ITransactionRepository.cs" />
@@ -99,6 +105,10 @@
     <Page Include="Costs\CostsView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Costs\ModifyTransactionDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -156,6 +166,10 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Libraries\CustomPresentationControls.dll" />
+    <Content Include="Libraries\FinanceManagement.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\System.Data.SQLite.Core.1.0.109.1\build\net46\System.Data.SQLite.Core.targets" Condition="Exists('..\packages\System.Data.SQLite.Core.1.0.109.1\build\net46\System.Data.SQLite.Core.targets')" />

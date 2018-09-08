@@ -26,55 +26,36 @@ namespace StatementViewer.Costs
     }
     public class CostBreakdown : ObservableObject
     {
-        private DateTime _timePeriod;
-        private decimal _paycheck;
-        private decimal _mortgage;
-        private decimal _loans;
-        private decimal _payments;
-        private decimal _interest;
-        private decimal _utilities;
+        private decimal _auto;
+        private decimal _dining;
         private decimal _grocery;
         private decimal _home;
-        private decimal _auto;
-        private decimal _work;
-        private decimal _dining;
+        private decimal _interest;
+        private decimal _loans;
         private decimal _luxury;
-        private decimal _travel;
         private decimal _misc;
+        private decimal _mortgage;
+        private decimal _paycheck;
+        private decimal _payments;
+        private decimal _retirement;
+        private DateTime _timePeriod;
+        private decimal _travel;
+        private decimal _utilities;
+        private decimal _work;
+        public decimal Auto
+        {
+            get { return _auto; }
+            set { OnPropertyChanged(ref _auto, value); }
+        }
+        public decimal Dining
+        {
+            get { return _dining; }
+            set { OnPropertyChanged(ref _dining, value); }
+        }
         public DateTime TimePeriod
         {
             get { return _timePeriod; }
             set { OnPropertyChanged(ref _timePeriod, value); }
-        }
-        public decimal Paycheck
-        {
-            get { return _paycheck; }
-            set { OnPropertyChanged(ref _paycheck, value); }
-        }
-        public decimal Mortgage
-        {
-            get { return _mortgage; }
-            set { OnPropertyChanged(ref _mortgage, value); }
-        }
-        public decimal Loans
-        {
-            get { return _loans; }
-            set { OnPropertyChanged(ref _loans, value); }
-        }
-        public decimal Payments
-        {
-            get { return _payments; }
-            set { OnPropertyChanged(ref _payments, value); }
-        }
-        public decimal Interest
-        {
-            get { return _interest; }
-            set { OnPropertyChanged(ref _interest, value); }
-        }
-        public decimal Utilities
-        {
-            get { return _utilities; }
-            set { OnPropertyChanged(ref _utilities, value); }
         }
         public decimal Grocery
         {
@@ -86,35 +67,60 @@ namespace StatementViewer.Costs
             get { return _home; }
             set { OnPropertyChanged(ref _home, value); }
         }
-        public decimal Auto
+        public decimal Interest
         {
-            get { return _auto; }
-            set { OnPropertyChanged(ref _auto, value); }
+            get { return _interest; }
+            set { OnPropertyChanged(ref _interest, value); }
         }
-        public decimal Work
+        public decimal Loans
         {
-            get { return _work; }
-            set { OnPropertyChanged(ref _work, value); }
-        }
-        public decimal Dining
-        {
-            get { return _dining; }
-            set { OnPropertyChanged(ref _dining, value); }
+            get { return _loans; }
+            set { OnPropertyChanged(ref _loans, value); }
         }
         public decimal Luxury
         {
             get { return _luxury; }
             set { OnPropertyChanged(ref _luxury, value); }
         }
+        public decimal Misc
+        {
+            get { return _misc; }
+            set { OnPropertyChanged(ref _misc, value); }
+        }
+        public decimal Mortgage
+        {
+            get { return _mortgage; }
+            set { OnPropertyChanged(ref _mortgage, value); }
+        }
+        public decimal Paycheck
+        {
+            get { return _paycheck; }
+            set { OnPropertyChanged(ref _paycheck, value); }
+        }
+        public decimal Payments
+        {
+            get { return _payments; }
+            set { OnPropertyChanged(ref _payments, value); }
+        }
+        public decimal Retirement
+        {
+            get { return _retirement; }
+            set { OnPropertyChanged(ref _retirement, value); }
+        }
         public decimal Travel
         {
             get { return _travel; }
             set { OnPropertyChanged(ref _travel, value); }
         }
-        public decimal Misc
+        public decimal Utilities
         {
-            get { return _misc; }
-            set { OnPropertyChanged(ref _misc, value); }
+            get { return _utilities; }
+            set { OnPropertyChanged(ref _utilities, value); }
+        }
+        public decimal Work
+        {
+            get { return _work; }
+            set { OnPropertyChanged(ref _work, value); }
         }
     }
 }

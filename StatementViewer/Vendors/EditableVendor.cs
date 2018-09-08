@@ -1,4 +1,5 @@
 ﻿using CustomPresentationControls.Utilities;
+using StatementViewer.Transactions;
 using System;
 using System.ComponentModel.DataAnnotations;
 
@@ -14,9 +15,9 @@ namespace StatementViewer.Vendors
             get { return _name; }
             set { OnPropertyChanged(ref _name, value); }
         }
-        private string _category;
+        private TransactionCategory _category;
         [Required]
-        public string Category
+        public TransactionCategory Category
         {
             get { return _category; }
             set { OnPropertyChanged(ref _category, value); }

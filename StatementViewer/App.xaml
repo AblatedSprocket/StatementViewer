@@ -2,8 +2,17 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:StatementViewer"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             xmlns:trans="clr-namespace:StatementViewer.Transactions"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
+        <ObjectDataProvider x:Key="CategoriesFromEnum"
+                            MethodName="GetValues"
+                            ObjectType="{x:Type sys:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="trans:TransactionCategory"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
         <Style TargetType="Button">
             <Style.Setters>
                 <Setter Property="Background" Value="DodgerBlue"/>

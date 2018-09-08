@@ -1,4 +1,5 @@
-﻿using StatementViewer.Utilities;
+﻿using StatementViewer.Transactions;
+using StatementViewer.Utilities;
 using StatementViewer.Vendors;
 using System;
 using System.Collections.Generic;
@@ -66,7 +67,7 @@ namespace StatementViewer.Services
                     return new Vendor(Convert.ToInt32(reader["Id"].ToString()))
                     {
                         Name = reader["Name"].ToString(),
-                        Category = reader["Category"].ToString(),
+                        Category = (TransactionCategory)Enum.Parse(typeof(TransactionCategory), reader["Category"].ToString()),
                         TransactionKey = reader["TransactionKey"].ToString(),
                         TransactionCount = Convert.ToInt32(reader["TransactionCount"])
                     };
@@ -91,7 +92,7 @@ namespace StatementViewer.Services
                         vendors.Add(new Vendor(Convert.ToInt32(reader["Id"].ToString()))
                         {
                             Name = reader["Name"].ToString(),
-                            Category = reader["Category"].ToString(),
+                            Category = (TransactionCategory)Enum.Parse(typeof(TransactionCategory), reader["Category"].ToString()),
                             TransactionKey = reader["TransactionKey"].ToString(),
                             TransactionCount = Convert.ToInt32(reader["TransactionCount"])
                         });
@@ -150,7 +151,7 @@ namespace StatementViewer.Services
             {
                 Id = vendor.Id,
                 Name = vendor.Name,
-                Category = vendor.Category,
+                Category = vendor.Category.ToString(),
                 TransactionKey = vendor.TransactionKey,
                 TransactionCount = vendor.TransactionCount
             };
@@ -161,7 +162,7 @@ namespace StatementViewer.Services
             {
                 Id = vendor.Id,
                 Name = vendor.Name,
-                Category = vendor.Category,
+                Category = (TransactionCategory)Enum.Parse(typeof(TransactionCategory), vendor.Category),
                 TransactionKey = vendor.TransactionKey,
                 TransactionCount = vendor.TransactionCount
             };

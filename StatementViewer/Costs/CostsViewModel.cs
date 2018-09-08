@@ -57,9 +57,11 @@ namespace StatementViewer.Costs
         #endregion
         #region Commands
         public RelayCommand AddVendorCommand { get; }
+        public RelayCommand<Transaction> ModifyTransactionCommand { get; }
         #endregion
         #region Events
         public event Action AddVendor = delegate { };
+        public event EventHandler<ModifyTransactionEventArgs> ModifyTransaction = delegate { };
         #endregion
         public CostsViewModel(string timeSpan)
         {
@@ -77,6 +79,7 @@ namespace StatementViewer.Costs
 
             }
             AddVendorCommand = new RelayCommand(OnAddVendor);
+            ModifyTransactionCommand = new RelayCommand<Transaction>(OnModifyTransaction);
         }
         #region Public Methods
         public void SetBreakdown(CostBreakdown breakdown)
@@ -102,6 +105,14 @@ namespace StatementViewer.Costs
         private void OnAddVendor()
         {
             AddVendor();
+        }
+        private void OnModifyTransaction(Transaction transaction)
+        {
+            ModifyTransactionDialog dialog = new ModifyTransactionDialog(transaction);
+            if (dialog.ShowDialog()?? false)
+            {
+                ModifyTransaction(this, new ModifyTransactionEventArgs(transaction));
+            }
         }
         #endregion
         #region Private Methods

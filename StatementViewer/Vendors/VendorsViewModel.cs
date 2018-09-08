@@ -27,17 +27,20 @@ namespace StatementViewer.Vendors
         public RelayCommand AddVendorCommand { get; }
         public RelayCommand<Vendor> EditVendorCommand { get; }
         public RelayCommand<Vendor> RemoveVendorCommand { get; }
+        public RelayCommand UpdateTransactionVendorsCommand { get; }
         #endregion
         #region Events
         public event Action AddVendor = delegate { };
         public event Action<Vendor> EditVendor = delegate { };
         public event Action<Vendor> RemoveVendor = delegate { };
+        public event Action UpdateTransactionVendors = delegate { };
         #endregion
         public VendorsViewModel()
         {
             AddVendorCommand = new RelayCommand(OnAddVendor);
             EditVendorCommand = new RelayCommand<Vendor>(OnEditVendor);
             RemoveVendorCommand = new RelayCommand<Vendor>(OnRemoveVendor);
+            UpdateTransactionVendorsCommand = new RelayCommand(OnUpdateTransactionVendors);
         }
         #region Command Methods
         public void SetVendors(IEnumerable<Vendor> vendors)
@@ -77,6 +80,10 @@ namespace StatementViewer.Vendors
             {
                 WpfMessageBox.ShowDialog("Data Error", ex.Message, MessageBoxButton.OK, MessageIcon.Error);
             }
+        }
+        private void OnUpdateTransactionVendors()
+        {
+            UpdateTransactionVendors();
         }
         #endregion
     }
